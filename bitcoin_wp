@@ -1,0 +1,34 @@
+---
+version: "2.0"
+
+services:
+  web:
+    image: docker.io/rsum1/bitcoin_whitepaper:latest
+    expose:
+      - port: 3000
+        as: 80
+        to:
+          - global: true
+
+profiles:
+  compute:
+    web:
+      resources:
+        cpu:
+          units: 0.1
+        memory:
+          size: 512Mi
+        storage:
+          size: 512Mi
+  placement:
+    westcoast:
+      pricing:
+        web:
+          denom: uakt
+          amount: 9999
+
+deployment:
+  web:
+    westcoast:
+      profile: web
+      count: 1
